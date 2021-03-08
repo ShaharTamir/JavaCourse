@@ -2,6 +2,20 @@ import java.util.Scanner;
 
 public class Number
 {
+    /***************************************************
+    *  Description:                                    *
+    *  Receive a 4 digits number and let user choose,  *
+    *  out of 3 options, how to modify it:             *
+    *   1. reverse sign                                *
+    *   2. revese number (1234 = 4321, 1200 = 21)      *
+    *   3. reverse both                                *
+    *                                                  *
+    *  if one of the user inputs is illigal -          *
+    *   means not a 4 digit number or                  *
+    *   not an option from menu (1,2 or 3)             *
+    *  then the program exist, with output describing  *
+    *  what went wrong.                                *
+    ***************************************************/
     public static void main(String[] args)
     {
         // reverse calcuation consts
@@ -68,8 +82,8 @@ public class Number
                 default:
                     System.out.println("Illegal option – you must choose 1, 2 or 3");
                     break;
-            }
-        }
+            } // switch
+        } // if
         else // illigal number
         {
             System.out.println("Illegal number – you must enter a 4 digit number");

@@ -2,10 +2,10 @@ import java.util.Scanner;
 
 public class HeartRate {
 
-    /****************************************
-    *   Receive age from user and calculate *
-    *   target heart rate while exercising  *
-    ****************************************/
+    /******************************************
+    *   Receive age from user and calculate   *
+    *   target heart rate while exercising    *
+    ******************************************/
     public static void main(String[] args)
     {
         final int MIN_PULSE_PRECENTAGE = 65;
@@ -26,6 +26,7 @@ public class HeartRate {
         int minPulseTgt = (DEFAULT_MAX_PULSE - age) * MIN_PULSE_PRECENTAGE / TO_PRECENTAGE;
         int maxPulseTgt = (DEFAULT_MAX_PULSE - age) * MAX_PULSE_PRECENTAGE / TO_PRECENTAGE;
 
+        // print results
         System.out.println ("Your estimated target heart rate zone is " +
                 minPulseTgt + " - " + maxPulseTgt + " beats per minute.");
     
