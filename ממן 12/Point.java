@@ -36,9 +36,8 @@ public class Point
 
     public String toString()
     {
-        // TODO
-
-        return "TODO";
+        String retVal = "(" + _x + "," + _y + ")";
+        return retVal;
     }
 
     public boolean equals(Point other)
@@ -73,13 +72,34 @@ public class Point
     
     public int quadrant()
     {
-        //TODO
+        if(HEAD == _x || HEAD == _y)
+        {
+            return HEAD;
+        }
+        if(_x > HEAD)
+        {
+            if(_y > HEAD)
+            {
+                return FIRST_QUAD;
+            }
 
-        return 0;
-
+            return FOURTH_QUAD;
+        }
+        if(_y > HEAD)
+        {
+            return SECOND_QUAD;
+        }
+        
+        return THIRD_QUAD;
     }
 
     static final double POWER_TWO = 2.0d;
+    static final int HEAD = 0;
+    static final int FIRST_QUAD = 1;
+    static final int SECOND_QUAD = 2;
+    static final int THIRD_QUAD = 3;
+    static final int FOURTH_QUAD = 4;
+
     double _x;
     double _y;    
 }
