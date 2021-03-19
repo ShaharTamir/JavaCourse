@@ -66,11 +66,19 @@ public class Point
 
     public double distance(Point p)
     {
+        final double POWER_TWO = 2.0d;
+        
         return Math.sqrt(Math.pow(p._y - _y, POWER_TWO) + Math.pow(p._x - _x, POWER_TWO));
     }
     
     public int quadrant()
     {
+        final int HEAD = 0;
+        final int FIRST_QUAD = 1;
+        final int SECOND_QUAD = 2;
+        final int THIRD_QUAD = 3;
+        final int FOURTH_QUAD = 4;
+
         if(HEAD == _x || HEAD == _y)
         {
             return HEAD;
@@ -91,13 +99,6 @@ public class Point
         
         return THIRD_QUAD;
     }
-
-    static final double POWER_TWO = 2.0d;
-    static final int HEAD = 0;
-    static final int FIRST_QUAD = 1;
-    static final int SECOND_QUAD = 2;
-    static final int THIRD_QUAD = 3;
-    static final int FOURTH_QUAD = 4;
 
     double _x;
     double _y;    

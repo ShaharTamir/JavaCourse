@@ -52,7 +52,7 @@ public class Number
             // receive functionallilty
             int choosenFunc = userInput.nextInt();
 
-            userInput.close();  // not longer in use
+            userInput.close();  // no longer in use
 
             switch(choosenFunc)
             {
@@ -81,13 +81,11 @@ public class Number
                 
                 default:
                     System.out.println("Illegal option – you must choose 1, 2 or 3");
-                    break;
             } // switch
         } // if
         else // illigal number
-        {
             System.out.println("Illegal number – you must enter a 4 digit number");
-        }
+
     } // end of method main
 
 } // end of class Number
