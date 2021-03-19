@@ -2,6 +2,42 @@ import Point;
 
 class Triangle
 {
+    enum Edges
+    {
+        FIRST_EDGE,
+        SECOND_EDGE,
+        THIRD_EDGE
+    }
+
+    enum EPointGeoId   // relative location to other points
+    {
+        ALL_SAME,
+        ONE_TOP,
+        TWO_TOP,
+        THREE_TOP,
+        ONE_TWO_TOP,
+        ONE_THREE_TOP, 
+        TWO_THREE_TOP,
+        ONE_LOW,
+        TWO_LOW,
+        THREE_LOW,
+        ONE_TWO_LOW,
+        ONE_THREE_LOW,
+        TWO_THREE_LOW,
+        ONE_LEFT,
+        TWO_LEFT,
+        THREE_LEFT,
+        ONE_TWO_LEFT,
+        ONE_THREE_LEFT,
+        TWO_THREE_LEFT,
+        ONE_RIGHT,
+        TWO_RIGHT,
+        THREE_RIGHT,
+        ONE_TWO_RIGHT,
+        ONE_THREE_RIGHT,
+        TWO_THREE_RIGHT
+    }
+
     /********************************
     *          CONSTRACTORS         *
     ********************************/
@@ -10,6 +46,16 @@ class Triangle
         _point1 = new Point(1d, 0d);
         _point2 = new Point(-1d, 0d);
         _point3 = new Point(0d, 1d);
+
+        _edge1 = setEdgeLength(Edges.FIRST_EDGE);
+        _edge2 = setEdgeLength(Edges.SECOND_EDGE);
+        _edge3 = setEdgeLength(Edges.THIRD_EDGE);
+
+        _pointsGeoMap = new EPointGeoId[4];
+        _pointsGeoMap[0] = EPointGeoId.THREE_TOP;
+        _pointsGeoMap[1] = EPointGeoId.ONE_TWO_LOW;
+        _pointsGeoMap[2] = EPointGeoId.ONE_RIGHT;
+        _pointsGeoMap[3] = EPointGeoId.TWO_LEFT;
     }
 
     public Triangle(Point point1, Point point2, Point point3)
@@ -67,6 +113,9 @@ class Triangle
         {
             _point1 = newPoint;
             isChanged = true; 
+
+            _edge1 = setEdgeLength(Edges.FIRST_EDGE);
+            _edge2 = setEdgeLength(Edges.SECOND_EDGE);
         }
 
         return isChanged;
@@ -80,6 +129,9 @@ class Triangle
         {
             _point2 = newPoint;
             isChanged = true; 
+
+            _edge1 = setEdgeLength(Edges.FIRST_EDGE);
+            _edge3 = setEdgeLength(Edges.THIRD_EDGE);
         }
 
         return isChanged;
@@ -93,76 +145,114 @@ class Triangle
         {
             _point3 = newPoint;
             isChanged = true; 
+
+            _edge2 = setEdgeLength(Edges.SECOND_EDGE);
+            _edge3 = setEdgeLength(Edges.THIRD_EDGE);
         }
 
         return isChanged;
     }
 
-    /********************************
-    *        PRIVATE METHODS        *
-    ********************************/
-    private boolean isValid(Point point1, Point point2, Point point3)
+    public double getPerimeter()
+    {
+        return _edge1 + _edge2 + _edge3;
+    }
+
+    public double getArea()
+    {
+        double halfPerimeter = getPerimeter() / 2;
+        
+        double diffEdgeA = halfPerimeter - _edge1;
+        double diffEdgeB = halfPerimeter - _edge2;
+        double diffEdgeC = halfPerimeter - _edge3;
+
+        return Math.sqrt(halfPerimeter * diffEdgeA * diffEdgeB * diffEdgeC);   // Heron formula
+    }
+
+    public boolean isIsosceles()
+    {
+        // one or more pair of edges is equal
+        return isDoubleEqual(_edge1, _edge2) || 
+                isDoubleEqual(_edge1, _edge3) || 
+                isDoubleEqual(_edge2, _edge3);
+    }
+
+    public boolean isPythagorean()
+    {
+        return isDoubleEqual(_edge1, _edge2) && isDoubleEqual(_edge1, _edge3);
+    }
+
+    public boolean isContainedInCircle(double x, double y, double r)
+    {
+        boolean retVal = false;
+        //TODO
+
+        return retVal;
+    }
+
+    public Point lowestPoint()
+    {
+        // TODO
+    }
+
+    public Point highestPoint()
+    {
+       // TODO 
+    }
+
+    public boolean isValid(Point point1, Point point2, Point point3)
     {
         boolean valid = false;
-
-        int topPoint = getTopPoint(point1, point2, point3);
-        int mostLeftPoint = getMostLeft(point1, point2, point3);
-
-        if(topPoint != ALL_SAME && mostLeftPoint != ALL_SAME)
+        
+        if(!isDoubleEuqal(point1, point2) && !isDoubleEuqal(point1, point3) &&
+             !isDoubleEuqal(point2, point3))
         {
-            valid = true;
+            
         }
 
         return valid;
     }
 
-    private int getTopPoint(Point point1, Point point2, Point point3)
+    /********************************
+    *        PRIVATE METHODS        *
+    ********************************/
+
+    private double setEdgeLength(Edges edge)
     {
-        int top = ALL_SAME;
+        double edgeLength = 0.0d;
 
-        if(point1.isAbove(point2) && point1.isAbove(point3))
+        switch(edge)
         {
-            top = ONE_TOP;
-        }
-        else if(point2.isAbove(point1) && point2.isAbove(point3))
-        {
-            top = TWO_TOP;
-        }
-        else if(point3.isAbove(point1) && point3.isAbove(point2))
-        {
-            top = THREE_TOP;
+        case FIRST_EDGE:
+            edgeLength = getPoint1().distance(getPoint2());
+            break;
+        case SECOND_EDGE:
+            edgeLength = getPoint1().distance(getPoint3());
+            break;
+        case THIRD_EDGE:
+            edgeLength = getPoint2().distance(getPoint3());
+            break;
+        default:
+            break;
         }
 
-        return top;
+        return edgeLength;
     }
 
-    private int getMostLeft(Point point1, Point point2, Point point3)
+    private bool isDoubleEqual(double a, double b)
     {
-        int mostLeft = ALL_SAME;
-
-        if(point1.isLeft(point2) && point1.isLeft(point3))
-        {
-            mostLeft = ONE_TOP;
-        }
-        else if(point2.isLeft(point1) && point2.isLeft(point3))
-        {
-            mostLeft = TWO_TOP;
-        }
-        else if(point3.isLeft(point1) && point3.isLeft(point2))
-        {
-            mostLeft = THREE_TOP;
-        }
-
-        return mostLeft;
+        return Math.abs(a - b) < EPSILON;
     }
 
     static final double EPSILON = 0.0001;
-    static final int ALL_SAME = 0;
-    static final int ONE_TOP = 1;
-    static final int TWO_TOP = 2;
-    static final int THREE_TOP = 3;
 
     Point _point1;
     Point _point2;
     Point _point3;
+
+    double _edge1;
+    double _edge2;
+    double _edge3;
+
+    EPointGeoId[] _pointsGeoMap;
 }

@@ -36,8 +36,7 @@ public class Point
 
     public String toString()
     {
-        String retVal = "(" + _x + "," + _y + ")";
-        return retVal;
+        return "(" + _x + "," + _y + ")";
     }
 
     public boolean equals(Point other)
