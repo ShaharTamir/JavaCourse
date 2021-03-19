@@ -47,9 +47,9 @@ class Triangle
         _point2 = new Point(-1d, 0d);
         _point3 = new Point(0d, 1d);
 
-        _edge1 = setEdgeLength(Edges.FIRST_EDGE);
-        _edge2 = setEdgeLength(Edges.SECOND_EDGE);
-        _edge3 = setEdgeLength(Edges.THIRD_EDGE);
+        setEdgeLength(Edges.FIRST_EDGE);
+        setEdgeLength(Edges.SECOND_EDGE);
+        setEdgeLength(Edges.THIRD_EDGE);
 
         _pointsGeoMap = new EPointGeoId[4];
         _pointsGeoMap[0] = EPointGeoId.THREE_TOP;
@@ -114,8 +114,8 @@ class Triangle
             _point1 = newPoint;
             isChanged = true; 
 
-            _edge1 = setEdgeLength(Edges.FIRST_EDGE);
-            _edge2 = setEdgeLength(Edges.SECOND_EDGE);
+            setEdgeLength(Edges.FIRST_EDGE);
+            setEdgeLength(Edges.SECOND_EDGE);
         }
 
         return isChanged;
@@ -130,8 +130,8 @@ class Triangle
             _point2 = newPoint;
             isChanged = true; 
 
-            _edge1 = setEdgeLength(Edges.FIRST_EDGE);
-            _edge3 = setEdgeLength(Edges.THIRD_EDGE);
+            setEdgeLength(Edges.FIRST_EDGE);
+            setEdgeLength(Edges.THIRD_EDGE);
         }
 
         return isChanged;
@@ -146,8 +146,8 @@ class Triangle
             _point3 = newPoint;
             isChanged = true; 
 
-            _edge2 = setEdgeLength(Edges.SECOND_EDGE);
-            _edge3 = setEdgeLength(Edges.THIRD_EDGE);
+            setEdgeLength(Edges.SECOND_EDGE);
+            setEdgeLength(Edges.THIRD_EDGE);
         }
 
         return isChanged;
@@ -217,26 +217,22 @@ class Triangle
     *        PRIVATE METHODS        *
     ********************************/
 
-    private double setEdgeLength(Edges edge)
+    private void setEdgeLength(Edges edge)
     {
-        double edgeLength = 0.0d;
-
         switch(edge)
         {
         case FIRST_EDGE:
-            edgeLength = getPoint1().distance(getPoint2());
+            _edge1 = getPoint1().distance(getPoint2());
             break;
         case SECOND_EDGE:
-            edgeLength = getPoint1().distance(getPoint3());
+            _edge2 = getPoint1().distance(getPoint3());
             break;
         case THIRD_EDGE:
-            edgeLength = getPoint2().distance(getPoint3());
+            _edge3 = getPoint2().distance(getPoint3());
             break;
         default:
             break;
         }
-
-        return edgeLength;
     }
 
     private bool isDoubleEqual(double a, double b)
