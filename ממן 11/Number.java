@@ -19,7 +19,7 @@ public class Number
     public static void main(String[] args)
     {
         // reverse calcuation consts
-        final int TEN = 10;
+        final int RADIX = 10;   // decimal base
 
         // menu consts
         final int REVERSE_SIGN = 1;
@@ -65,15 +65,15 @@ public class Number
                 case REVERSE_BOTH:
                     num = -num; // no break on purpose(!), so that reverse calculation is written once.
                 case REVERSE_NUM:
-                    int reversedNum = num % TEN; // get num curr first digit
-                    reversedNum *= TEN;          // shift left (make room for next digit)
-                    num /= TEN;                  // shift num right - curr first digit is now the origin num second digit
-                    reversedNum += num % TEN;    // repeat process until reversed
-                    reversedNum *= TEN;
-                    num /= TEN;
-                    reversedNum += num % TEN;
-                    reversedNum *= TEN;
-                    num /= TEN;
+                    int reversedNum = num % RADIX; // get num curr first digit
+                    reversedNum *= RADIX;          // shift left (make room for next digit)
+                    num /= RADIX;                  // shift num right - curr first digit is now the origin num second digit
+                    reversedNum += num % RADIX;    // repeat process until reversed
+                    reversedNum *= RADIX;
+                    num /= RADIX;
+                    reversedNum += num % RADIX;
+                    reversedNum *= RADIX;
+                    num /= RADIX;
                     reversedNum += num;          // origin num most left digit is current first and only digit.
                     System.out.println("The result is");
                     System.out.print(reversedNum);
