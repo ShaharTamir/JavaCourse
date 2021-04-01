@@ -193,6 +193,7 @@ public class Triangle
      */
     public double getArea()
     {
+        // split calculation into parameters for readability and reuse.
         double halfPerimeter = getPerimeter() / 2;
         
         double diffEdgeA = halfPerimeter - getEdge(FIRST_EDGE);
@@ -410,7 +411,7 @@ public class Triangle
     }
 
     /*
-    *   this method returns true if this edge number is equal (EPSILON considered) to other edge number
+    *   this method returns true if this edge number is equal (with precision EPSILON) to other edge number
     */
     private boolean areEdgesEqual(int edgeNum, int otherEdgeNum, Triangle other)
     {
