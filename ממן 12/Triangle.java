@@ -1,26 +1,9 @@
 class Triangle
 {
-    enum Edges
-    {
-        FIRST_EDGE(0),
-        SECOND_EDGE(1),
-        THIRD_EDGE(2),
-        NUM_EDGES(3);
-
-        private int _value;
-
-        private Edges(int value)
-        {
-            _value = value;
-        }
-
-        public int getValue()
-        {
-            return _value;
-        }
-    }
-
     static final double EPSILON = 0.0001;
+    private static final int FIRST_EDGE = 0;
+    private static final int SECOND_EDGE = 1;
+    private static final int THIRD_EDGE = 2;
 
     private Point _point1;
     private Point _point2;
@@ -115,16 +98,16 @@ class Triangle
     ********************************/
     public double getPerimeter()
     {
-        return getEdge(Edges.FIRST_EDGE) + getEdge(Edges.SECOND_EDGE) + getEdge(Edges.THIRD_EDGE);
+        return getEdge(FIRST_EDGE) + getEdge(SECOND_EDGE) + getEdge(THIRD_EDGE);
     }
 
     public double getArea()
     {
         double halfPerimeter = getPerimeter() / 2;
         
-        double diffEdgeA = halfPerimeter - getEdge(Edges.FIRST_EDGE);
-        double diffEdgeB = halfPerimeter - getEdge(Edges.SECOND_EDGE);
-        double diffEdgeC = halfPerimeter - getEdge(Edges.THIRD_EDGE);
+        double diffEdgeA = halfPerimeter - getEdge(FIRST_EDGE);
+        double diffEdgeB = halfPerimeter - getEdge(SECOND_EDGE);
+        double diffEdgeC = halfPerimeter - getEdge(THIRD_EDGE);
 
         return Math.sqrt(halfPerimeter * diffEdgeA * diffEdgeB * diffEdgeC);   // Heron formula
     }
@@ -132,16 +115,17 @@ class Triangle
     public boolean isIsosceles()
     {
         // one or more pairs of edges are equal
-        return isDoubleEqual(getEdge(Edges.FIRST_EDGE), getEdge(Edges.SECOND_EDGE)) || 
-                isDoubleEqual(getEdge(Edges.FIRST_EDGE), getEdge(Edges.THIRD_EDGE)) || 
-                isDoubleEqual(getEdge(Edges.SECOND_EDGE), getEdge(Edges.THIRD_EDGE));
+        return isDoubleEqual(getEdge(FIRST_EDGE), getEdge(SECOND_EDGE)) || 
+                isDoubleEqual(getEdge(FIRST_EDGE), getEdge(THIRD_EDGE)) || 
+                isDoubleEqual(getEdge(SECOND_EDGE), getEdge(THIRD_EDGE));
     }
 
     public boolean isPythagorean()
     {
-        double edge1 = getEdge(Edges.FIRST_EDGE);
-        double edge2 = getEdge(Edges.SECOND_EDGE);
-        double edge3 = getEdge(Edges.THIRD_EDGE);
+        // variables for readability
+        double edge1 = getEdge(FIRST_EDGE);
+        double edge2 = getEdge(SECOND_EDGE);
+        double edge3 = getEdge(THIRD_EDGE);
 
         return isDoubleEqual(edge1, pythagorean(edge2, edge3)) || 
                 isDoubleEqual(edge2, pythagorean(edge1, edge3)) || 
@@ -156,17 +140,17 @@ class Triangle
     {
         boolean retVal = false;
         Point circleCenter = new Point(x ,y);
-        double distPoint1 = circleCenter.distance(_point1);
+        double distPoint = circleCenter.distance(_point1);
 
-        if(isDoubleEqual(distPoint1, r) || distPoint1 < r)
+        if(isDoubleEqual(distPoint, r) || distPoint < r)
         {
-            double distPoint2 = circleCenter.distance(_point2);
+            distPoint = circleCenter.distance(_point2);
             
-            if(isDoubleEqual(distPoint2, r) || distPoint2 < r)
+            if(isDoubleEqual(distPoint, r) || distPoint < r)
             {
-                double distPoint3 = circleCenter.distance(_point3);
+                distPoint = circleCenter.distance(_point3);
                 
-                if(isDoubleEqual(distPoint3, r) || distPoint3 < r)
+                if(isDoubleEqual(distPoint, r) || distPoint < r)
                 {
                     retVal = true;
                 }
@@ -178,71 +162,17 @@ class Triangle
 
     public Point lowestPoint()
     {
-        if(_point1.isUnder(_point2))
-        {
-            if(_point1.isUnder(_point3))
-                return _point1;
-            else if(_point3.isUnder(_point1))
-                return _point3;
-            else if(_point1.isLeft(_point3)) // point1 and 3 are at the same height and under point2
-                return _point1;
-            else
-                return _point3;
-        }
-        else if(_point2.isUnder(_point1))
-        { 
-            if(_point2.isUnder(_point3))
-                return _point2;
-            else if(_point3.isUnder(_point2))
-                return _point3;
-            else if(_point2.isLeft(_point3)) // point2 and 3 are at the same height and under point1
-                return _point2;
-            else
-                return _point3;
-        }
-        else if(_point3.isUnder(_point2)) //point1 and point2 are at the same height means point3 must be above or under.
-            return _point3;
-        else if(_point1.isLeft(_point2)) // point3 is above point1 and 2. check most left among them.
-            return _point1;
-        else
-            return _point2;
+        return lowestOfTwo(_point1, lowestOfTwo(_point2, _point3));
     }
 
     public Point highestPoint()
     {
-        if(_point1.isAbove(_point2))
-        {
-            if(_point1.isAbove(_point3))
-                return _point1;
-            else if(_point3.isAbove(_point1))
-                return _point3;
-            else if(_point1.isLeft(_point3)) // point1 and 3 are at the same height and above point2
-                return _point1;
-            else
-                return _point3;
-        }
-        else if(_point2.isAbove(_point1))
-        { 
-            if(_point2.isAbove(_point3))
-                return _point2;
-            else if(_point3.isAbove(_point2))
-                return _point3;
-            else if(_point2.isLeft(_point3)) // point2 and 3 are at the same height and above point1
-                return _point2;
-            else
-                return _point3;
-        }
-        else if(_point3.isAbove(_point2)) //point1 and 2 are at the same height, means point3 must be above or under.
-            return _point3;
-        else if(_point1.isLeft(_point2)) // point2 and 1 are at the same height and above point3
-            return _point1;
-        else
-            return _point2;
+        return heighestOfTwo(_point1, heighestOfTwo(_point2, _point3));
     }
 
     public boolean isLocated()
     {
-        return _point1.quadrant() == _point2.quadrant() && _point2.quadrant() == _point3.quadrant();
+        return (_point1.quadrant() == _point2.quadrant()) && (_point2.quadrant() == _point3.quadrant());
     }
 
     public boolean isAbove(Triangle other)
@@ -275,55 +205,36 @@ class Triangle
 
     public boolean isCongruent(Triangle other)
     {   
-        boolean matchFound = false;
-        Edges[] firstMatchCycle = {Edges.FIRST_EDGE, Edges.SECOND_EDGE, Edges.THIRD_EDGE};
-        Edges[] secondMatchCycle = new Edges[2];
-
-        int firstMatchIndex = 0;
-        int secondMatchIndex = 0;
-
-        while(!matchFound && firstMatchIndex < Edges.NUM_EDGES.getValue())
+        int edgeLeft1;
+        int edgeLeft2;
+        
+        if(areEdgesEqual(FIRST_EDGE, FIRST_EDGE, other))
         {
-            if(areEdgesEqual(Edges.FIRST_EDGE, firstMatchCycle[firstMatchIndex], other))
-            {
-                matchFound = true;
-
-                for(secondMatchIndex = 0; secondMatchIndex < Edges.THIRD_EDGE.getValue(); ++secondMatchIndex)
-                {
-                    secondMatchCycle[secondMatchIndex] = 
-                        firstMatchCycle[(firstMatchIndex + secondMatchIndex + 1) % Edges.NUM_EDGES.getValue()];
-                }
-                
-            }
-
-            ++firstMatchIndex;
+            edgeLeft1 = SECOND_EDGE;
+            edgeLeft2 = THIRD_EDGE;
         }
-
-        if(matchFound)
+        else if(areEdgesEqual(FIRST_EDGE, SECOND_EDGE, other))
         {
-            matchFound = false;
-            secondMatchIndex = 0;
-
-            while(!matchFound && secondMatchIndex < Edges.THIRD_EDGE.getValue())
-            {
-                if(areEdgesEqual(Edges.SECOND_EDGE, secondMatchCycle[secondMatchIndex], other) && 
-                    areEdgesEqual(Edges.THIRD_EDGE, secondMatchCycle[(secondMatchIndex + 1) % Edges.THIRD_EDGE.getValue()] , other))
-                {
-                    matchFound = true;
-                }
-
-                ++secondMatchIndex;
-            }
+            edgeLeft1 = FIRST_EDGE;
+            edgeLeft2 = THIRD_EDGE;
         }
+        else if(areEdgesEqual(FIRST_EDGE, THIRD_EDGE, other))
+        {
+            edgeLeft1 = FIRST_EDGE;
+            edgeLeft2 = SECOND_EDGE;
+        }
+        else
+            return false;
 
-        return matchFound;
+        return ((areEdgesEqual(SECOND_EDGE, edgeLeft1, other) && areEdgesEqual(THIRD_EDGE, edgeLeft2, other)) ||
+                    (areEdgesEqual(SECOND_EDGE, edgeLeft2, other) && areEdgesEqual(THIRD_EDGE, edgeLeft1, other)));
     }
 
     /********************************
     *        PRIVATE METHODS        *
     ********************************/
 
-    private double getEdge(Edges edge)
+    private double getEdge(int edge)
     {
         switch(edge)
         {
@@ -349,37 +260,40 @@ class Triangle
         dest.setY(src.getY());
     }
 
-    private boolean areEdgesEqual(Edges currEdge, Edges otherEdge, Triangle other)
+    private boolean areEdgesEqual(int currEdge, int otherEdge, Triangle other)
     {
-        boolean equal = false;
-        double choosenEdge;
-        
-        // choose 'this' right edge for comparsion
-        switch(currEdge)
+        if(currEdge > THIRD_EDGE || currEdge < FIRST_EDGE || 
+            otherEdge > THIRD_EDGE || otherEdge < FIRST_EDGE)
         {
-        case FIRST_EDGE:
-        case SECOND_EDGE:
-        case THIRD_EDGE:
-            choosenEdge = getEdge(currEdge);
-            
-            // choose other right edge to compare to and compare
-            switch(otherEdge)
-            {
-            case FIRST_EDGE:
-            case SECOND_EDGE:
-            case THIRD_EDGE:
-                equal = isDoubleEqual(choosenEdge, other.getEdge(otherEdge));
-                break;
-            default:
-            } // switch
+            return false;   
+        }
+        
+        return isDoubleEqual(getEdge(currEdge), other.getEdge(otherEdge));
+    }
 
-            break;
-        default:
-            return false;
-        } // switch
+    private Point heighestOfTwo(Point a, Point b)
+    {
+        if(a.isAbove(b))
+            return a;
+        if(b.isAbove(a))
+            return b;
+        if(a.isLeft(b))
+            return a;
+        else
+            return b;
+    }
 
-        return equal;
-    } // areEdgesEqual
+    private Point lowestOfTwo(Point a, Point b)
+    {
+        if(a.isUnder(b))
+            return a;
+        if(b.isUnder(a))
+            return b;
+        if(a.isLeft(b))
+            return a;
+        else
+            return b;
+    }
 
     private double pythagorean(double a, double b)
     {
@@ -387,5 +301,4 @@ class Triangle
 
         return Math.sqrt(Math.pow(a, POWER) + Math.pow(b, POWER));
     }
-
 } //class Triangle
