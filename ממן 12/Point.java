@@ -1,8 +1,8 @@
 /**
  * Class Point - represents a point in the cartesian coordinate system
  * 
- * @author Shahar Tamir
  * @version 2021b
+ * @author Shahar Tamir
  */
 public class Point 
 {
@@ -68,9 +68,9 @@ public class Point
     }
 
     /**
+    * Returns a string representation of this Point.
     * @return String that represents this point
-    * in the following format:
-    * (0.0,0.0)
+    * in the following format:(x,y)
     */
     public String toString()
     {
@@ -141,36 +141,30 @@ public class Point
 
     /**
     * determines the quadrant of a point
-    * @return the quadrant the point is located.
-    * the results are as following: <p>
-    *   0 - point is on one of the axes or at the origin <p>
-    *   1 - first  quad <p>
-    *   2 - second quad <p>
-    *   3 - third  quad <p>
-    *   4 - fourth quad
+    * @return number of quadrant or 0 if the point is on an axis
     */
     public int quadrant()
     {
-        final int AXES = 0;
+        final int AXIS = 0;
         final int FIRST_QUAD = 1;
         final int SECOND_QUAD = 2;
         final int THIRD_QUAD = 3;
         final int FOURTH_QUAD = 4;
 
-        if(AXES == _x || AXES == _y)
+        if(AXIS == _x || AXIS == _y)
         {
-            return AXES;
+            return AXIS;
         }
-        if(_x > AXES)
+        if(_x > AXIS)
         {
-            if(_y > AXES)
+            if(_y > AXIS)
             {
                 return FIRST_QUAD;
             }
 
             return FOURTH_QUAD;
         }
-        if(_y > AXES)
+        if(_y > AXIS)
         {
             return SECOND_QUAD;
         }
