@@ -147,7 +147,7 @@ public class Triangle
     }
 
     /********************************
-    *       TRIANGLE QUALITIES      *
+    *           QUALITIES           *
     ********************************/
     /**
      * This method checks if 3 points make a valid triangle. <p>
