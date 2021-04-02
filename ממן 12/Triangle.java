@@ -41,9 +41,9 @@ public class Triangle
 
         if(isValid(p1, p2, p3))
         {
-            setPoint(_point1, p1);
-            setPoint(_point2, p2);
-            setPoint(_point3, p3);
+            _point1 = new Point(p1);
+            _point2 = new Point(p2);
+            _point3 = new Point(p3);
         }
     }
 
@@ -82,7 +82,7 @@ public class Triangle
      */
     public Point getPoint1()
     {
-        return _point1;
+        return new Point(_point1);
     }
 
     /**
@@ -91,7 +91,7 @@ public class Triangle
      */
     public Point getPoint2()
     {
-        return _point2;
+        return new Point(_point2);
     }
 
     /**
@@ -100,7 +100,7 @@ public class Triangle
      */
     public Point getPoint3()
     {
-        return _point3;
+        return new Point(_point3);
     }
 
     /********************************
@@ -116,7 +116,7 @@ public class Triangle
     {
         if(isValid(newPoint, _point2, _point3))
         {
-            setPoint(_point1, newPoint);
+            _point1 = new Point(newPoint);
         }
     }
 
@@ -129,7 +129,7 @@ public class Triangle
     {
         if(isValid(_point1, newPoint, _point3))
         {
-            setPoint(_point2, newPoint);
+            _point2 = new Point(newPoint);
         }
     }
 
@@ -142,7 +142,7 @@ public class Triangle
     {
         if(isValid(_point1, _point2, newPoint))
         {
-            setPoint(_point3, newPoint);
+            _point3 = new Point(newPoint);
         }
     }
 
@@ -401,17 +401,12 @@ public class Triangle
     }
 
     /*
-    *   this method sets both x and y coordinates of dest (destination)
-    *   with the value of x and y coordinates of src (source)
-    */
-    private void setPoint(Point dest, Point src)
-    {
-        dest.setX(src.getX());
-        dest.setY(src.getY());
-    }
-
-    /*
     *   this method returns true if this edge number is equal (with precision EPSILON) to other edge number
+    *   parameters:
+    *       edgeNum - this triangle edge number
+    *       otherEdgeNum - other triangle edge number to compare to
+    *       other - other triangle to compare it's edge to this edge
+    *   edgeNum parameters are according to *_EDGE variables
     */
     private boolean areEdgesEqual(int edgeNum, int otherEdgeNum, Triangle other)
     {
