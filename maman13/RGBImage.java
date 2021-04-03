@@ -156,6 +156,7 @@ public class RGBImage
         else if(offset > 0)
         {
             offset = offset < _image[0].length ? offset : _image[0].length;
+            
             shiftColRight(offset);
             paintAreaBlack(0, _image.length, 0, offset);
         }
@@ -163,14 +164,21 @@ public class RGBImage
 
     public void shiftRow(int offset)
     {
-       /* if(offset < 0)
+        if(offset < 0)
         {
-            shiftRowUp(-offset);
+            offset = -offset;
+            int rowStart = offset < _image.length ? _image.length - offset : 0;
+            
+            shiftRowUp(offset);
+            paintAreaBlack(rowStart, _image.length, 0, _image[0].length);
         }
         else if(offset > 0)
         {
+            offset = offset < _image.length ? offset : _image.length;
+            
             shiftRowDown(offset);
-        }*/
+            paintAreaBlack(0, offset, 0, _image[0].length);
+        }
     }
 
     public double[][] toGrayscaleArray()
@@ -282,7 +290,10 @@ public class RGBImage
     {
         for(int r = 0; r + offset < _image.length; ++r)
         {
-            _image[r] = _image[r + offset];
+            for(int c = 0; c < _image[0].length; ++c)
+            {
+                _image[r][c] = _image[r + offset][c];
+            }
         }
     }
 
@@ -290,7 +301,10 @@ public class RGBImage
     {
         for(int r = lastRowPos(); r - offset >= 0; --r)
         {
-            _image[r] = _image[r - offset];
+            for(int c = 0; c < _image[0].length; ++c)
+            {
+                _image[r][c] = _image[r - offset][c];
+            }
         }
     }
 
