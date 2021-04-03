@@ -16,9 +16,9 @@ public class StudentTester {
 		
 		System.out.println("Constructor with RGBColor[][] Array Parameter:");
 		RGBColor[][] rgbArray1 = new RGBColor[3][4];
-		for (int i=0; i<rgbArray1.length;i++)
+		for (int i=0; i<rgbArray1.length - 1;i++)
 			for (int j=0; j<rgbArray1[0].length;j++)	
-				rgbArray1[i][j] = new RGBColor(i,i,i);						
+				rgbArray1[i][j] = new RGBColor(j + i, j + i, j + i);						
 		RGBImage rgbImg1 = new RGBImage(rgbArray1);
 		System.out.println(rgbImg1);
 		
@@ -63,7 +63,7 @@ public class StudentTester {
 		System.out.println("flipHorizontal:");
 		rgbImg1.flipHorizontal();
 		System.out.println(rgbImg1);
-		
+		/*
 		System.out.println("shiftRow -1:");
 		rgbImg1.shiftRow(-1);
 		System.out.println(rgbImg1);
@@ -73,13 +73,14 @@ public class StudentTester {
 		System.out.println("shiftCol -2:");
 		rgbImg1.shiftCol(-2);
 		System.out.println(rgbImg1);
+		*/
+		System.out.println("flipVertical:");
+		rgbImg1.flipVertical();
+		System.out.println(rgbImg1);
+		System.out.println("flipVertical:");
+		rgbImg1.flipVertical();
+		System.out.println(rgbImg1);
 		
-		System.out.println("flipVertical:");
-		rgbImg1.flipVertical();
-		System.out.println(rgbImg1);
-		System.out.println("flipVertical:");
-		rgbImg1.flipVertical();
-		System.out.println(rgbImg1);
 		
 		//rgbImg2 testing
 		System.out.println("toRGBColorArray:");
