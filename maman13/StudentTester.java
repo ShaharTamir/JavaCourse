@@ -6,7 +6,8 @@
  * @author Course tutors
  *
  */
-public class StudentTester {
+public class StudentTester 
+{
 
 	public static void main(String[] args) {
 		
@@ -21,31 +22,16 @@ public class StudentTester {
 				rgbArray1[i][j] = new RGBColor(j + i, j + i, j + i);						
 		RGBImage startingImage = new RGBImage(rgbArray1);
 		System.out.println(startingImage);
-		
-		System.out.println("Copy Constructor:");
-		RGBImage rgbImg2 = new RGBImage(startingImage);
-		System.out.println(rgbImg2);
-		
+				
 		//startingImage testing
-		System.out.println("getHeight:");
-		System.out.println(startingImage.getHeight()+"\n");
-		System.out.println("getWidth:");
-		System.out.println(startingImage.getWidth()+"\n");
-		
+		testSize(new RGBImage(startingImage));
 		testRotation(new RGBImage(startingImage));
 		testFlipping(new RGBImage(startingImage));
 		testShifting(new RGBImage(startingImage));
+		testColorArr(new RGBImage(startingImage));
 		
-		//rgbImg2 testing
-		System.out.println("toRGBColorArray:");
-		RGBColor[][] rgbArray2 = rgbImg2.toRGBColorArray();
-		for(int i=0;i<rgbArray2.length;i++){
-			for(int j=0;j<rgbArray2[0].length;j++)
-				System.out.print(rgbArray2[i][j]+"  ");
-			System.out.println();
-		}	
-		System.out.println();
-		
+		// rgbImg2 testing
+		RGBImage rgbImg2 = new RGBImage(startingImage);
 		System.out.println("invertColors:");
 		rgbImg2.invertColors();
 		System.out.println(rgbImg2);
@@ -77,6 +63,14 @@ public class StudentTester {
 		
 		
 		System.out.println("\n\n fin \n\n");
+	}
+
+	public static void testSize(RGBImage image)
+	{
+		System.out.println("getHeight:");
+		System.out.println(image.getHeight()+"\n");
+		System.out.println("getWidth:");
+		System.out.println(image.getWidth()+"\n");
 	}
 
 	public static void testRotation(RGBImage image)
@@ -127,6 +121,10 @@ public class StudentTester {
 		System.out.println("shiftRow :" + offset);
 		image.shiftRow(offset);
 		System.out.println(image);
+		offset = 0;
+		System.out.println("shiftRow :" + offset);
+		image.shiftRow(offset);
+		System.out.println(image);
 		offset = 1;
 		System.out.println("shiftCol :" + offset);
 		image.shiftCol(offset);
@@ -136,6 +134,10 @@ public class StudentTester {
 		image.shiftCol(offset);
 		System.out.println(image);
 		offset = 1;
+		System.out.println("shiftCol :" + offset);
+		image.shiftCol(offset);
+		System.out.println(image);
+		offset = 0;
 		System.out.println("shiftCol :" + offset);
 		image.shiftCol(offset);
 		System.out.println(image);
@@ -158,5 +160,18 @@ public class StudentTester {
 		System.out.println("flipVertical:");
 		image.flipVertical();
 		System.out.println(image);
+	}
+
+	public static void testColorArr(RGBImage image)
+	{
+		System.out.println("toRGBColorArray:");
+		RGBColor[][] rgbArray = image.toRGBColorArray();
+		for(int i=0;i<rgbArray.length;i++)
+		{
+			for(int j=0;j<rgbArray[0].length;j++)
+				System.out.print(rgbArray[i][j]+"  ");
+			System.out.println();
+		}
+		System.out.println();
 	}
 }
