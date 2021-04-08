@@ -6,7 +6,7 @@
  */
 public class Triangle
 {
-    static final double EPSILON = 0.0001;
+    public static final double EPSILON = 0.0001;
     
     private static final int FIRST_EDGE = 0;
     private static final int SECOND_EDGE = 1;
@@ -272,7 +272,7 @@ public class Triangle
      */
     public Point lowestPoint()
     {
-        return lowestOfTwo(_point1, lowestOfTwo(_point2, _point3));
+        return new Point(lowestOfTwo(_point1, lowestOfTwo(_point2, _point3)));
     }
 
     /**
@@ -283,7 +283,7 @@ public class Triangle
      */
     public Point highestPoint()
     {
-        return highestOfTwo(_point1, highestOfTwo(_point2, _point3));
+        return new Point(highestOfTwo(_point1, highestOfTwo(_point2, _point3)));
     }
 
     /**
@@ -292,7 +292,11 @@ public class Triangle
      */
     public boolean isLocated()
     {
-        return (_point1.quadrant() == _point2.quadrant()) && (_point2.quadrant() == _point3.quadrant());
+        final int ON_AXIS = 0;
+
+        return _point1.quadrant() == _point2.quadrant() && 
+                _point2.quadrant() == _point3.quadrant() &&
+                _point1.quadrant() != ON_AXIS;
     }
 
     /**
@@ -376,9 +380,9 @@ public class Triangle
     *   according to final variables - *_EDGE.
     *   if given a wrong edge number - return value is 0.
     */
-    private double getEdge(int edge)
+    private double getEdge(int edgeNum)
     {
-        switch(edge)
+        switch(edgeNum)
         {
         case FIRST_EDGE:
             return _point1.distance(_point2);
@@ -418,8 +422,9 @@ public class Triangle
     }
 
     /*
-    *   this method returns the highest point - a or b.
+    *   this method returns the highest point by reference - a or b
     *   if the two points are at the same height - return most left.
+    *   Return value is by reference on purpose to save unnecessary allocation.
     */
     private Point highestOfTwo(Point a, Point b)
     {
@@ -433,8 +438,9 @@ public class Triangle
     }
 
     /*
-    *   this method returns the lowest point - a or b.
+    *   this method returns the lowest point by reference - a or b.
     *   if the two points are at the same height - return most left.
+    *   Return value is by reference on purpose to save unnecessary allocation.
     */
     private Point lowestOfTwo(Point a, Point b)
     {
