@@ -169,7 +169,7 @@ public class Triangle
     }
 
     /**
-     * This method returns a String representation of thetTriangle. <p>
+     * This method returns a String representation of the Triangle. <p>
      * The format of the string should be: {(x1,y1),(x2,y2),(x3,y3)}
      * @return a String representation of the triangle
      */
