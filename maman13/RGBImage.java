@@ -116,28 +116,10 @@ public class RGBImage
     }
 
     /**
-     * This method flips the image horizontally.<p>
-     * first row becomes last and so on
-     */
-    public void flipHorizontal()
-    {
-        // run through all columns
-        for(int c = 0; c < _image[0].length; ++c)
-        {
-            int start = 0; // start row at each column
-            int end = _image.length - 1; // last row position
-
-            while(start < end)
-                swapPixels(start++, c, end--, c); 
-                // swap pixels and move 'start' and 'end' towards the middle row
-        }//for
-    }
-
-    /**
-    * This method flips the image vertically.<p>
+    * This method flips the image horizontally.<p>
     * first column becomes last and so on
     */
-    public void flipVertical()
+    public void flipHorizontal()
     {
         // run through all rows
         for(int r = 0; r < _image.length; ++r)
@@ -148,6 +130,24 @@ public class RGBImage
             while(start < end)
                 swapPixels(r, start++, r, end--);
                 // swap pixels and move 'start' and 'end' towards the middle column
+        }//for
+    }
+
+    /**
+     * This method flips the image  vertically.<p>
+     * first row becomes last and so on
+     */
+    public void flipVertical()
+    {
+        // run through all columns
+        for(int c = 0; c < _image[0].length; ++c)
+        {
+            int start = 0; // start row at each column
+            int end = _image.length - 1; // last row position
+
+            while(start < end)
+                swapPixels(start++, c, end--, c); 
+                // swap pixels and move 'start' and 'end' towards the middle row
         }//for
     }
 
