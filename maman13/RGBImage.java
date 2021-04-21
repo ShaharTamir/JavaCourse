@@ -295,10 +295,8 @@ public class RGBImage
     */
     public RGBColor[][] toRGBColorArray()
     {
-        RGBImage retImage = new RGBImage(this); // copy constructor
-
         // return a reference to a copy of this image.
-        return retImage._image;
+        return (new RGBImage(this))._image;
     }
 
     /********************************
