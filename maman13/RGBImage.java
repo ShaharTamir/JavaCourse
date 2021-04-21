@@ -29,13 +29,11 @@ public class RGBImage
      */
     public RGBImage(RGBColor[][] pixels)
     {
-        // allocate according to 'pixels' num of rows and num of cols.
         _image = new RGBColor[pixels.length][pixels[0].length];
         
-        // copy each cell from pixels to image using RGBColor copy constructor
-        for(int r = 0; r < pixels.length; ++r)
-            for(int c = 0; c < pixels[0].length; ++c)
-                _image[r][c] = new RGBColor(pixels[r][c]);
+        for(int rows = 0; rows < pixels.length; ++rows)
+            for(int cols = 0; cols < pixels[0].length; ++cols)
+                _image[rows][cols] = new RGBColor(pixels[rows][cols]); // RGBColor copy constructor
     }
 
     /**
@@ -111,7 +109,6 @@ public class RGBImage
                 if(!_image[r][c].equals(other._image[r][c]))
                     return false;
 
-        // here means images size are equal and all pixels are equal
         return true;
     }
 
@@ -121,15 +118,13 @@ public class RGBImage
     */
     public void flipHorizontal()
     {
-        // run through all rows
         for(int r = 0; r < _image.length; ++r)
         {
-            int start = 0;  // start column at each row
+            int start = 0;
             int end = _image[0].length - 1; // last coloumn index
 
             while(start < end)
                 swapPixels(r, start++, r, end--);
-                // swap pixels and move 'start' and 'end' towards the middle column
         }//for
     }
 
@@ -139,15 +134,13 @@ public class RGBImage
      */
     public void flipVertical()
     {
-        // run through all columns
         for(int c = 0; c < _image[0].length; ++c)
         {
-            int start = 0; // start row at each column
+            int start = 0;
             int end = _image.length - 1; // last row position
 
             while(start < end)
                 swapPixels(start++, c, end--, c); 
-                // swap pixels and move 'start' and 'end' towards the middle row
         }//for
     }
 
@@ -175,13 +168,12 @@ public class RGBImage
 
         // copy this image to the rotated image according to logic from description
         for(int r = 0; r < _image.length; ++r)
-            copyRowToOtherColumn(r, newLastCol - r, rotatedImage);
+            for(int c = 0; c < _image[0].length; ++c)
+                rotatedImage[c][newLastCol - r] = new RGBColor(_image[r][c]);
 
         // this image now refers to the rotated image
         _image = rotatedImage;
     }
-
-    hadsfkjh
 
     /**
     * This method rotates the image 90 degrees counter clockwise.<p>
@@ -196,13 +188,13 @@ public class RGBImage
 
         // copy this image to the rotated image according to logic from description
         for(int c = 0; c < _image[0].length; ++c)
-            copyColumnToOtherRow(c, newLastRow - c, rotatedImage);
+            for(int r = 0; r < _image.length; ++r)
+                rotatedImage[newLastRow - c][r] = new RGBColor(_image[r][c]);
 
         // this image now refers to the rotated image
         _image = rotatedImage;
     }
     
-
     /**
     * This method shifts the columns of the image according to <tt>offset</tt>.<p>
     * The pixels in the shifted positions will turn black.
@@ -210,16 +202,45 @@ public class RGBImage
     */
     public void shiftCol(int offset)
     {
-        if(offset < 0)
+        if(Math.abs(offset) > _image[0].length || 0 == offset)
+            return;
+            
+        int c = 0;
+
+        if(offset < 0) // shift left
         {
             offset = -offset; // work with a possitive offset.
-            shiftColLeft(offset);
+            
+            /* shift from right to left. assign 'offset' column to the first column, 
+               and move towards the last column. */
+            while(c + offset < _image[0].length)
+            {
+                for(int r = 0; r < _image.length; ++r)
+                {
+                    _image[r][c] = _image[r][c + offset];
+                    _image[r][c + offset] = new RGBColor(); // paint the shifted pixel position in black
+                }//for
+    
+                ++c;
+            }//while
         }
-        else if(offset > 0)
-            shiftColRight(offset);
-        
-        // handle offset so that will not exceed the image boundaries
-        offset = offset < _image[0].length ? offset : _image[0].length;
+        else // shift right
+        {
+            c = _image[0].length - 1; // last coloumn index
+
+            /* shift from left to right. assign 'last column - offset' to the last column,
+               and move towards the first coloumn. */
+            while(c - offset >= 0)
+            {
+                for(int r = 0; r < _image.length; ++r)
+                {
+                    _image[r][c] = _image[r][c - offset];
+                    _image[r][c - offset] = new RGBColor(); // paint the shifted pixel position in black
+                }//for
+                
+                --c;
+            }//while
+        }
 
         if(_image[0].length - offset < offset)
             // here means there are cols that did not shift because exceeded image boundaries 
@@ -234,16 +255,44 @@ public class RGBImage
     */
     public void shiftRow(int offset)
     {
-        if(offset < 0)
+        if(Math.abs(offset) > _image.length || 0 == offset)
+            return;
+
+        int r = 0;
+        if(offset < 0) // shift up
         {
             offset = -offset; // work with a possitive offset.
-            shiftRowUp(offset);
-        }
-        else if(offset > 0)
-            shiftRowDown(offset);
+            
+            /* shift from down up. assign 'offset' to the first row, 
+                and move towards the last row. */
+            while(r + offset < _image.length)
+            {
+                for(int c = 0; c < _image[0].length; ++c)
+                {
+                    _image[r][c] = _image[r + offset][c];
+                    _image[r + offset][c] = new RGBColor(); // paint the shifted pixel position in black
+                }//for
 
-        // handle offset so that will not exceed the image boundaries
-        offset = offset < _image.length ? offset : _image.length;
+                ++r;
+            }//while
+        }//if
+        else // shift down
+        {
+            r = _image.length - 1; // last row position
+
+            /* shift from up down. assign 'last row - offset' to the last row,
+                and move towards the first row. */
+            while(r - offset >= 0)
+            {
+                for(int c = 0; c < _image[0].length; ++c)
+                {
+                    _image[r][c] = _image[r - offset][c];
+                    _image[r - offset][c] = new RGBColor(); // paint the shifted pixel position in black
+                }
+                
+                --r;
+            }//while
+        }//else
 
         if(_image.length - offset < offset)
             // here means there are rows that did not shift because exceeded image boundaries 
@@ -298,14 +347,13 @@ public class RGBImage
     */
     public RGBColor[][] toRGBColorArray()
     {
-        // return a reference to a copy of this image.
         return (new RGBImage(this))._image;
     }
 
     /********************************
     *        PRIVATE METHODS        *
     ********************************/
-
+    
     /*
     * This method returns if a position is valid
     *  parameters:
@@ -316,34 +364,6 @@ public class RGBImage
     private boolean validPos(int row, int col)
     {
         return row < _image.length && row >= 0 && col < _image[0].length && col >= 0;
-    }
-
-    /*
-    * This method copy a row from this image into the column of a given image.
-    *  parameters:
-    *   row - row to copy from this image
-    *   col - coloumn to copy to in other image
-    *   other - image to copy to
-    */
-    private void copyRowToOtherColumn(int row, int col, RGBColor[][] other)
-    {
-        // assuming params are valid because method is private
-        for(int i = 0; i < _image[0].length; ++i)
-            other[i][col] = new RGBColor(_image[row][i]);
-    }
-
-    /*
-    * This method copy a column from this image into the row of a given image.
-    *  parameters:
-    *   col - coloumn to copy from this image
-    *   row - row to copy to in other image
-    *   other - image to copy to
-    */
-    private void copyColumnToOtherRow(int col, int row, RGBColor[][] other)
-    {
-        // assuming params are valid because method is private
-        for(int i = 0; i < _image.length; ++i)
-            other[row][i] = new RGBColor(_image[i][col]);
     }
 
     /*
@@ -363,107 +383,6 @@ public class RGBImage
     }
 
     /*
-    * This method shifts the image columns left accroding to offset.
-    *  parameters:
-    *   offset - offset to shift the columns
-    */
-    private void shiftColLeft(int offset)
-    { 
-        int c = 0;
-        
-        /* shift from right to left. 
-        start from the 'offset' column position, assign it to the first column,
-        and move towards the last column while the shifting 
-        is within the boundaries of the image. */
-        while(c + offset < _image[0].length)
-        {
-            for(int r = 0; r < _image.length; ++r)
-            {
-                _image[r][c] = _image[r][c + offset]; // assign the reference to it's new position in image
-                _image[r][c + offset] = new RGBColor(); // paint the shifted pixel position in black
-            }//for
-
-            ++c;
-        }//while
-    }
-
-    /*
-    * This method shifts the image columns right accroding to offset.
-    *  parameters:
-    *   offset - offset to shift the columns
-    */
-    private void shiftColRight(int offset)
-    {
-        int c = _image[0].length - 1; // last coloumn index
-
-        /* shift from left to right. 
-        start from the 'last column - offset' position, assign it to the last column,
-        and move towards the first coloumn while the shifting  
-        is within the boundaries of the image. */
-        while(c - offset >= 0)
-        {
-            for(int r = 0; r < _image.length; ++r)
-            {
-                _image[r][c] = _image[r][c - offset]; // assign the reference to it's new position in image
-                _image[r][c - offset] = new RGBColor(); // paint the shifted pixel position in black
-            }//for
-            
-            --c;
-        }//while
-    }
-
-    /*
-    * This method shifts the image rows up accroding to offset.
-    *  parameters:
-    *   offset - offset to shift the columns
-    */
-    private void shiftRowUp(int offset)
-    {
-        int r = 0;
-
-        /* shift from down up. 
-        start from the 'offset' row position, assign it to the first row,
-        and move towards the last row while the shifting  
-        is within the boundaries of the image. */
-        while(r + offset < _image.length)
-        {
-            for(int c = 0; c < _image[0].length; ++c)
-            {
-                _image[r][c] = _image[r + offset][c]; // assign the reference to it's new position in image
-                _image[r + offset][c] = new RGBColor(); // paint the shifted pixel position in black
-            }//for
-
-            ++r;
-        }//while
-    }
-
-    /*
-    * This method shifts the image rows down accroding to offset.
-    *  parameters:
-    *   offset - offset to shift the columns
-    */
-    private void shiftRowDown(int offset)
-    {
-        int r = _image.length - 1; // last row position
-
-        /* shift from up down. 
-        start from the 'last row - offset' position, assign it to the last row,
-        and move towards the first row while the shifting  
-        is within the boundaries of the image. */
-        while(r - offset >= 0)
-        {
-            for(int c = 0; c < _image[0].length; ++c)
-            {
-                _image[r][c] = _image[r - offset][c]; // assign the reference to it's new position in image
-                _image[r - offset][c] = new RGBColor(); // paint the shifted pixel position in black
-            }//for
-            
-            --r;
-        }//while
-
-    }
-
-    /*
     * This method 'paint' a specified area in image in black.
     *   notice! - rowEnd and colEnd are not included.
     *  parameters:
@@ -478,7 +397,7 @@ public class RGBImage
         {
             while(rowStart < rowEnd)
             {
-                int colRunner = colStart; // use a runner so start value is not lost after the first cycle
+                int colRunner = colStart; // use a runner so start value is not lost
                 
                 while(colRunner < colEnd)
                     _image[rowStart][colRunner++] = new RGBColor();

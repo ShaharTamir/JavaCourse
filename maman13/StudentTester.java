@@ -141,6 +141,18 @@ public class StudentTester
 		System.out.println("shiftCol :" + offset);
 		image.shiftCol(offset);
 		System.out.println(image);
+		offset = image.getWidth() + 1;
+		System.out.println("shiftCol :" + offset);
+		image.shiftCol(offset);
+		System.out.println(image);
+		offset = image.getHeight() + 1;
+		System.out.println("shiftRow :" + offset);
+		image.shiftRow(offset);
+		System.out.println(image);
+		offset = image.getWidth();
+		System.out.println("shiftCol :" + offset);
+		image.shiftCol(offset);
+		System.out.println(image);
 	}
 
 	public static void testFlipping(RGBImage image)
