@@ -33,7 +33,7 @@ public class RGBImage
         
         for(int rows = 0; rows < pixels.length; ++rows)
             for(int cols = 0; cols < pixels[0].length; ++cols)
-                _image[rows][cols] = new RGBColor(pixels[rows][cols]); // RGBColor copy constructor
+                _image[rows][cols] = new RGBColor(pixels[rows][cols]);
     }
 
     /**
@@ -98,7 +98,7 @@ public class RGBImage
      */
     public boolean equals(RGBImage other)
     {
-        // verfiy other is not null and size equality
+        // verfiy valid
         if(null == other || other._image.length != _image.length ||
              other._image[0].length != _image[0].length)
             return false;
@@ -123,7 +123,7 @@ public class RGBImage
             int start = 0;
             int end = _image[0].length - 1; // last coloumn index
 
-            while(start < end)
+            while(start < end) // cols
                 swapPixels(r, start++, r, end--);
         }//for
     }
@@ -139,7 +139,7 @@ public class RGBImage
             int start = 0;
             int end = _image.length - 1; // last row position
 
-            while(start < end)
+            while(start < end) // rows
                 swapPixels(start++, c, end--, c); 
         }//for
     }
@@ -161,17 +161,14 @@ public class RGBImage
     */
     public void rotateClockwise()
     {
-        // allocate a new black image with the rotated dimensions: 
-        // curr width is new height, curr height is new width
+        // allocate a new pixel arr with the rotated dimensions.
         RGBColor[][] rotatedImage = new RGBColor[_image[0].length][_image.length];
         int newLastCol = rotatedImage[0].length - 1;
 
-        // copy this image to the rotated image according to logic from description
-        for(int r = 0; r < _image.length; ++r)
-            for(int c = 0; c < _image[0].length; ++c)
-                rotatedImage[c][newLastCol - r] = new RGBColor(_image[r][c]);
+        for(int r = 0; r < _image.length; ++r)  // rotated cols, origin rows
+            for(int c = 0; c < _image[0].length; ++c) // rotated rows, origin cols
+                rotatedImage[c][newLastCol - r] = new RGBColor(_image[r][c]); // first row becomes the last column and so on
 
-        // this image now refers to the rotated image
         _image = rotatedImage;
     }
 
@@ -181,17 +178,14 @@ public class RGBImage
     */
     public void rotateCounterClockwise()
     {
-        // allocate a new black image with the rotated dimensions: 
-        // curr width is new height, curr height is new width
+        // allocate a new pixel arr with the rotated dimensions.
         RGBColor[][] rotatedImage = new RGBColor[_image[0].length][_image.length];
         int newLastRow = rotatedImage.length - 1;
 
-        // copy this image to the rotated image according to logic from description
-        for(int c = 0; c < _image[0].length; ++c)
-            for(int r = 0; r < _image.length; ++r)
-                rotatedImage[newLastRow - c][r] = new RGBColor(_image[r][c]);
+        for(int c = 0; c < _image[0].length; ++c) // rotated rows, origin cols
+            for(int r = 0; r < _image.length; ++r)  // rotated cols, origin rows
+                rotatedImage[newLastRow - c][r] = new RGBColor(_image[r][c]); // first column becomes the last row and so on
 
-        // this image now refers to the rotated image
         _image = rotatedImage;
     }
     
@@ -212,13 +206,13 @@ public class RGBImage
             offset = -offset; // work with a possitive offset.
             
             /* shift from right to left. assign 'offset' column to the first column, 
-               and move towards the last column. */
+               and move towards the last column. paint the shifted pixel position in black */
             while(c + offset < _image[0].length)
             {
                 for(int r = 0; r < _image.length; ++r)
                 {
                     _image[r][c] = _image[r][c + offset];
-                    _image[r][c + offset] = new RGBColor(); // paint the shifted pixel position in black
+                    _image[r][c + offset] = new RGBColor();
                 }//for
     
                 ++c;
@@ -229,13 +223,13 @@ public class RGBImage
             c = _image[0].length - 1; // last coloumn index
 
             /* shift from left to right. assign 'last column - offset' to the last column,
-               and move towards the first coloumn. */
+               and move towards the first coloumn. paint the shifted pixel position in black */
             while(c - offset >= 0)
             {
                 for(int r = 0; r < _image.length; ++r)
                 {
                     _image[r][c] = _image[r][c - offset];
-                    _image[r][c - offset] = new RGBColor(); // paint the shifted pixel position in black
+                    _image[r][c - offset] = new RGBColor();
                 }//for
                 
                 --c;
@@ -264,13 +258,13 @@ public class RGBImage
             offset = -offset; // work with a possitive offset.
             
             /* shift from down up. assign 'offset' to the first row, 
-                and move towards the last row. */
+                and move towards the last row. paint the shifted pixel position in black */
             while(r + offset < _image.length)
             {
                 for(int c = 0; c < _image[0].length; ++c)
                 {
                     _image[r][c] = _image[r + offset][c];
-                    _image[r + offset][c] = new RGBColor(); // paint the shifted pixel position in black
+                    _image[r + offset][c] = new RGBColor();
                 }//for
 
                 ++r;
@@ -281,13 +275,13 @@ public class RGBImage
             r = _image.length - 1; // last row position
 
             /* shift from up down. assign 'last row - offset' to the last row,
-                and move towards the first row. */
+                and move towards the first row. paint the shifted pixel position in black */
             while(r - offset >= 0)
             {
                 for(int c = 0; c < _image[0].length; ++c)
                 {
                     _image[r][c] = _image[r - offset][c];
-                    _image[r - offset][c] = new RGBColor(); // paint the shifted pixel position in black
+                    _image[r - offset][c] = new RGBColor();
                 }
                 
                 --r;
@@ -308,8 +302,6 @@ public class RGBImage
     {
         double[][] greyScaleImage = new double[_image.length][_image[0].length];
 
-        // convert each pixel to grey scale and assign the value
-        // to the matching possition in greyScaleImage.
         for(int r = 0; r < _image.length; ++r)
             for(int c = 0; c < _image[0].length; ++c)
                 greyScaleImage[r][c] = _image[r][c].convertToGrayscale();
@@ -377,9 +369,9 @@ public class RGBImage
     private void swapPixels(int aRow, int aCol, int bRow, int bCol)
     {
         // assuming params are valid because method is private
-        RGBColor tmp = _image[aRow][aCol];       // tmp refers to A value.
-        _image[aRow][aCol] = _image[bRow][bCol]; // A cell refers to B value 
-        _image[bRow][bCol] = tmp;                // B value refers to tmp (A) value.
+        RGBColor tmp = _image[aRow][aCol];       
+        _image[aRow][aCol] = _image[bRow][bCol];  
+        _image[bRow][bCol] = tmp;                
     }
 
     /*
