@@ -181,6 +181,8 @@ public class RGBImage
         _image = rotatedImage;
     }
 
+    hadsfkjh
+
     /**
     * This method rotates the image 90 degrees counter clockwise.<p>
     * first column becomes the last row and so on
@@ -199,6 +201,7 @@ public class RGBImage
         // this image now refers to the rotated image
         _image = rotatedImage;
     }
+    
 
     /**
     * This method shifts the columns of the image according to <tt>offset</tt>.<p>
