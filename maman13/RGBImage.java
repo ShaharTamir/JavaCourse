@@ -196,46 +196,27 @@ public class RGBImage
     */
     public void shiftCol(int offset)
     {
-        if(Math.abs(offset) > _image[0].length || 0 == offset)
+        if(Math.abs(offset) > _image[0].length || 0 == offset) // offset validity
             return;
             
-        int c = 0;
+        int c = offset > 0 ? _image[0].length - 1 : 0; // right(>0): start from last col    , left(<0): from 0
+        int direction = offset > 0 ? -1 : 1;           // right(>0): moves towrds first col , left(<0): towrds last col
 
-        if(offset < 0) // shift left
+        // >= 0 is for right(>0); < .length is for left(<0)
+        while(c - offset >= 0 && c - offset < _image[0].length)
         {
-            offset = -offset; // work with a possitive offset.
-            
-            /* shift from right to left. assign 'offset' column to the first column, 
-               and move towards the last column. paint the shifted pixel position in black */
-            while(c + offset < _image[0].length)
+            // right(> 0): lastCol = lastCol - offset; --lastCol; from left to right
+            // left(< 0): firstCol = firstCol + offset; ++firstCol; from right to left
+            for(int r = 0; r < _image.length; ++r)
             {
-                for(int r = 0; r < _image.length; ++r)
-                {
-                    _image[r][c] = _image[r][c + offset];
-                    _image[r][c + offset] = new RGBColor();
-                }//for
-    
-                ++c;
-            }//while
-        }
-        else // shift right
-        {
-            c = _image[0].length - 1; // last coloumn index
+                _image[r][c] = _image[r][c - offset];
+                _image[r][c - offset] = new RGBColor(); // paint black the shifted pixel pos
+            }//for
 
-            /* shift from left to right. assign 'last column - offset' to the last column,
-               and move towards the first coloumn. paint the shifted pixel position in black */
-            while(c - offset >= 0)
-            {
-                for(int r = 0; r < _image.length; ++r)
-                {
-                    _image[r][c] = _image[r][c - offset];
-                    _image[r][c - offset] = new RGBColor();
-                }//for
-                
-                --c;
-            }//while
-        }
+            c += direction;
+        }//while
 
+        offset = Math.abs(offset);
         if(_image[0].length - offset < offset)
             // here means there are cols that did not shift because exceeded image boundaries 
             // and need to be painted black 
@@ -249,45 +230,26 @@ public class RGBImage
     */
     public void shiftRow(int offset)
     {
-        if(Math.abs(offset) > _image.length || 0 == offset)
+        if(Math.abs(offset) > _image.length || 0 == offset) // offset validity
             return;
 
-        int r = 0;
-        if(offset < 0) // shift up
+        int r = offset > 0 ? _image.length - 1 : 0; // down(>0): start from last row    , up(<0): from 0 
+        int direction = offset > 0 ? -1 : 1;        // down(>0): moves towrds first row , up(<0): towrds last row
+
+        while(r - offset >= 0 && r - offset < _image.length) // >= 0 is for down(>0); < .length is for up(<0)
         {
-            offset = -offset; // work with a possitive offset.
+            // down(> 0): lastRow = lastRow - offset, --lastRow; from up to down.
+            // up(< 0): firstRow = firstRow + offset, ++firstRow; from down to up.
+            for(int c = 0; c < _image[0].length; ++c)
+            {
+                _image[r][c] = _image[r - offset][c];
+                _image[r - offset][c] = new RGBColor(); // paint black the shifted pixel pos
+            }
             
-            /* shift from down up. assign 'offset' to the first row, 
-                and move towards the last row. paint the shifted pixel position in black */
-            while(r + offset < _image.length)
-            {
-                for(int c = 0; c < _image[0].length; ++c)
-                {
-                    _image[r][c] = _image[r + offset][c];
-                    _image[r + offset][c] = new RGBColor();
-                }//for
-
-                ++r;
-            }//while
-        }//if
-        else // shift down
-        {
-            r = _image.length - 1; // last row position
-
-            /* shift from up down. assign 'last row - offset' to the last row,
-                and move towards the first row. paint the shifted pixel position in black */
-            while(r - offset >= 0)
-            {
-                for(int c = 0; c < _image[0].length; ++c)
-                {
-                    _image[r][c] = _image[r - offset][c];
-                    _image[r - offset][c] = new RGBColor();
-                }
-                
-                --r;
-            }//while
-        }//else
-
+            r += direction;
+        }//while
+        
+        offset = Math.abs(offset);
         if(_image.length - offset < offset)
             // here means there are rows that did not shift because exceeded image boundaries 
             // and need to be painted black
