@@ -167,7 +167,7 @@ public class RGBImage
 
         for(int r = 0; r < _image.length; ++r)  // rotated cols, origin rows
             for(int c = 0; c < _image[0].length; ++c) // rotated rows, origin cols
-                rotatedImage[c][newLastCol - r] = new RGBColor(_image[r][c]); // first row becomes the last column and so on
+                rotatedImage[c][newLastCol - r] = _image[r][c]; // first row becomes the last column and so on
 
         _image = rotatedImage;
     }
@@ -184,7 +184,7 @@ public class RGBImage
 
         for(int c = 0; c < _image[0].length; ++c) // rotated rows, origin cols
             for(int r = 0; r < _image.length; ++r)  // rotated cols, origin rows
-                rotatedImage[newLastRow - c][r] = new RGBColor(_image[r][c]); // first column becomes the last row and so on
+                rotatedImage[newLastRow - c][r] = _image[r][c]; // first column becomes the last row and so on
 
         _image = rotatedImage;
     }
@@ -321,7 +321,7 @@ public class RGBImage
     }
 
     /*
-    * This method swaps to pixels inside this image.
+    * This method swaps to pixels inside 'this' image.
     *  parameters:
     *   aRow - first row position
     *   aCol - first column position
@@ -349,15 +349,9 @@ public class RGBImage
     {
         if(colStart < colEnd)   // verify to not waste useless iterations
         {
-            while(rowStart < rowEnd)
-            {
-                int colRunner = colStart; // use a runner so start value is not lost
-                
-                while(colRunner < colEnd)
-                    _image[rowStart][colRunner++] = new RGBColor();
-    
-                ++rowStart;
-            }//while
+            for(; rowStart < rowEnd; ++rowStart)
+                for(int colRunner = colStart; colRunner < colEnd; ++colRunner) // use a runner so start value is not lost
+                    _image[rowStart][colRunner] = new RGBColor();
         }//if
     }
 
