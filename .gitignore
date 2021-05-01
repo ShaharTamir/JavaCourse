@@ -1,4 +1,5 @@
 *.class
 *.zip
 *.ppm
+*.vscode/
 !maman13/RGBColor.class
