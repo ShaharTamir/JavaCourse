@@ -1,3 +1,40 @@
+/* Question 15 */
+interface interfacePapa
+{
+    public abstract boolean methodA(int x);
+    public abstract boolean methodB(float y);
+    public abstract boolean methodC(double z);
+}
+
+abstract class interfaceSon implements interfacePapa
+{
+    public boolean methodA(int x)
+    {
+        return true;
+    }
+
+    public abstract boolean methodD();
+}
+
+class Grandson extends interfaceSon
+{
+    public boolean methodB(float y)
+    {
+        return false;
+    }
+
+    public boolean methodC(double z)
+    {
+        return false;
+    }
+
+    public boolean methodD()
+    {
+        return true;
+    }
+}
+
+
 class A
 {
     public double myFunc(double x, int y)
@@ -210,8 +247,8 @@ public class Tester
         A a1 = new B();
         B b1 = a1;
         */
-        /* Questions 8 - 14 
-
+        /* Questions 8 - 14 */
+        /*
         AA a1 = new AA();
         AA a2 = new BB();
         AA a3 = new AA();
@@ -231,6 +268,17 @@ public class Tester
         BBB b = new BBB();
         BBB b2 = new BBB(6);
         */
-        CCCC c = new CCCC();
+       // CCCC c = new CCCC();
+
+       interfacePapa a = new Grandson();
+       interfaceSon b = new Grandson();
+
+       System.out.println(a.methodA(12));
+       System.out.println(a.methodB(12.1f));
+       System.out.println(a.methodC(12.3d));
+       System.out.println(b.methodA(12));
+       System.out.println(b.methodB(12.1f));
+       System.out.println(b.methodC(12.3d));
+       System.out.println(b.methodD());
     }
 }
