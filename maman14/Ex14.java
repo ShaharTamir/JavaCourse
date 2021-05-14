@@ -5,7 +5,7 @@ public class Ex14 {
         //testDrop();
         //testSink();
         //testSize();
-        testPermutation();
+        //testPermutation();
     }
 
     public static void testDrop()
@@ -92,19 +92,30 @@ public class Ex14 {
         System.out.println("test5: " + isPermutation(a[0], b[4]));
     }
 
+    /**
+    *  This method finds the maximum difference between
+    *   a high number followed by a small number in an array.<p><p>
+    *   The time complexity is O(n) (or O(2n)),
+    *   because iterating through the array only once and each iteration has two actions.<p>
+    *   The space complexity is O(1), because only allocating three variables,
+    *   without any relation to <tt>a</tt> size.
+    *   @param a integers array to find it's maximum diff
+    *   @return maximum difference between
+    *   a high number followed by a small number in an array.
+    */
     public static int maximalDrop(int[] a)
     {
         if (a.length == 0)
             return 0;
 
-        int maxDiff = 0;
-        int maxNum = a[0];
+            int maxNum = a[0];  // largest number in array until this point in array.
+            int maxDiff = 0;    // biggest difference found.
 
         for(int i = 1; i < a.length; ++i)
         {
             if(a[i] >= maxNum)
                 maxNum = a[i];
-            else if(maxNum - a[i] > maxDiff)
+            else if(maxNum - a[i] > maxDiff) // found a bigger difference than the current
                 maxDiff = maxNum - a[i];
         }
 
@@ -113,6 +124,7 @@ public class Ex14 {
 
     public static int isSink(int[][] mat)
     {
+        int zeroRowsCount = 0;
         int i = 0;
         int j;
 
@@ -124,7 +136,12 @@ public class Ex14 {
 
             if(j == mat[0].length)
             {
+                if(zeroRowsCount > 0)
+                    return -1;
+                    
+                ++zeroRowsCount;
                 j = 0;
+
                 while(j < mat.length && (1 == mat[j][i] || j == i))
                     ++j;
 
