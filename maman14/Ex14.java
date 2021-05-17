@@ -1,107 +1,15 @@
 public class Ex14 {
 
-    public static void main(String[] args)
-    {
-        //testDrop();
-        //testSink();
-        //testSize();
-        //testPermutation();
-    }
-
-    public static void testDrop()
-    {
-        int[] test1 = { 5, 21, 3, 22, 12, 7, 27, 6, 4};
-        int[] test2 = { 5, 21, 3, 22, 12, 7, 26, 14};
-        int[] test3 = { 5, 15, 3, 22, 12, 7, 27, 14};
-        int[] test4 = {};
-        int[] test5 = new int[6];
-
-        System.out.println("test1: " + maximalDrop(test1));
-        System.out.println("test2: " + maximalDrop(test2));
-        System.out.println("test3: " + maximalDrop(test3));
-        System.out.println("test4: " + maximalDrop(test4));
-        System.out.println("test5: " + maximalDrop(test5));
-    }
-
-    public static void testSink()
-    {
-        int[][] test1 = {{0, 1, 0, 1, 1, 0}, 
-                         {1, 0, 1, 1, 0, 0}, 
-                         {0, 0, 0, 1, 0, 1},
-                         {0, 0, 0, 0, 0, 0}, 
-                         {1, 0, 1, 1, 0, 0}, 
-                         {0, 1, 0, 1, 1, 1}};
-
-        int[][] test2 = {{0, 1, 0, 0, 0, 1}, 
-                         {1, 0, 0, 1, 1, 1}, 
-                         {0, 0, 0, 0, 0, 0}, 
-                         {1, 1, 1, 1, 1, 1},
-                         {0, 1, 0, 1, 0, 1},
-                         {1, 0, 0, 0, 1, 0}}; 
-
-        int[][] test3 = {{0, 0, 0, 0, 0, 0}, 
-                         {1, 0, 1, 1, 0, 0}, 
-                         {1, 0, 0, 1, 0, 1},
-                         {1, 0, 0, 0, 0, 0}, 
-                         {1, 0, 1, 1, 0, 0}, 
-                         {1, 1, 0, 1, 1, 1}};
-
-        System.out.println("test1: " + isSink(test1));
-        System.out.println("test2: " + isSink(test2));
-        System.out.println("test3: " + isSink(test3));
-    }
-
-    public static void testSize()
-    {
-        boolean[][] mat =   {{false, true, false, false, true},
-                             {true, false, false, true, true},
-                             {false, false, true, true, false},
-                             {true, false, false, false, false},
-                             {true, true, true, false, false}};
-                            
-        int x1 = 0;
-        int y1 = 0;
-        int x2 = 10;
-        int y2 = 0;
-        int x3 = 1;
-        int y3 = 0;
-        int x4 = 0;
-        int y4 = 4;
-
-        System.out.println("test1: " + size(mat, x1, y1));
-        System.out.println("test2: " + size(mat, x2, y2));
-        System.out.println("test3: " + size(mat, x3, y3));
-        System.out.println("test4: " + size(mat, x4, y4));
-    }
-
-    public static void testPermutation()
-    {
-        int[][] a = {{1, 2, 3, 4},
-                     {4, 2, 3, 4},
-                     {1, 2, 4, 4}};
-        int[][] b = {{3, 2, 4, 1},
-                     {3, 2, 4, 4},
-                     {1, 2, 4, 2},
-                     {3, 2, 4, 5},
-                     {3, 2, 4, 1, 5}};
-
-        System.out.println("test1: " + isPermutation(a[0], b[0]));
-        System.out.println("test2: " + isPermutation(a[1], b[1]));
-        System.out.println("test3: " + isPermutation(a[2], b[2]));
-        System.out.println("test4: " + isPermutation(a[0], b[3]));
-        System.out.println("test5: " + isPermutation(a[0], b[4]));
-    }
-
     /**
-    *  This method finds the maximum difference between
-    *   a high number followed by a small number in an array.<p><p>
+    *  Find the maximum difference between a high number followed by a small number in an array.<p>
+    *   Complexity:<p>
     *   The time complexity is O(n) (or O(2n)),
     *   because iterating through the array only once and each iteration has two actions.<p>
     *   The space complexity is O(1), because only allocating three variables,
     *   without any relation to <tt>a</tt> size.
+    *
     *   @param a integers array to find it's maximum diff
-    *   @return maximum difference between
-    *   a high number followed by a small number in an array.
+    *   @return maximum difference between a high number followed by a small number in an array.
     */
     public static int maximalDrop(int[] a)
     {
@@ -122,6 +30,20 @@ public class Ex14 {
         return maxDiff;
     }
 
+    /**
+     * Find if a given matrix contains a sink.
+     *  The matrix should contian 1's and 0's only.<p>
+     *  A sink is when an 'i' row index in matrix is filled with 0's only,
+     *  and the same 'i' column index in matrix is filled with 1's, except [i][i] position which is 0.<p>
+     *  The method returns the index of the first sink found in matrix, or -1 if none exist.<p>
+     * Complexity:<p>
+     *  The time complexity is O(n^2) - worst case scenario is matrix is filled with 0
+     *  except the last column filled with 1. Means iterate once through the whole matrix.<p>
+     *  The space complexity is O(1) becuase allocating only three variables.
+     * 
+     * @param mat matrix to look for sinks at, containing 0's and 1's only.
+     * @return the index of the first sink found in matrix, or -1 if none exist.
+     */
     public static int isSink(int[][] mat)
     {
         int zeroRowsCount = 0;
@@ -131,21 +53,21 @@ public class Ex14 {
         while(i < mat.length)
         { 
             j = 0;
-            while(j < mat[0].length && 0 == mat[i][j])
+            while(j < mat[0].length && 0 == mat[i][j]) // find if row is filled with 0
                 ++j;
 
-            if(j == mat[0].length)
+            if(j == mat[0].length) // whole row is filled with 0
             {
-                if(zeroRowsCount > 0)
+                if(zeroRowsCount > 0) // all columns contain at least two 0's, means not possible to contain a sink
                     return -1;
                     
                 ++zeroRowsCount;
                 j = 0;
 
-                while(j < mat.length && (1 == mat[j][i] || j == i))
+                while(j < mat.length && (1 == mat[j][i] || j == i)) // find if column is filled with 1, except [i][i] pos
                     ++j;
 
-                if(j == mat.length)
+                if(j == mat.length) // found a sink
                     return i;
             }//if
 
@@ -155,9 +77,18 @@ public class Ex14 {
         return -1;
     }
 
+    /**
+     * Returns the size of a spot in matrix, if exists, in given (x,y) index.<p>
+     *  A spot is a group of cells in matrix that are adjacent and are all 'true' in the boolean matrix.<p>
+     * 
+     * @param mat a boolean matrix to look for a spot at.
+     * @param x row index in <tt>mat</tt>.
+     * @param y column index in <tt>mat</tt>.
+     * @return If the position is valid - the size of a spot found in a given position. else - 0.
+     */
     public static int size(boolean[][] mat, int x, int y)
     {
-        if(!validPos(mat, x, y) || !mat[x][y])
+        if(!validPos(mat, x, y) || !mat[x][y]) 
             return 0;
 
         boolean[][] trace = new boolean[mat.length][mat[0].length]; // all false by default
@@ -165,6 +96,13 @@ public class Ex14 {
         return size(mat, trace, x, y);
     }
 
+    /**
+     * Find if two given integer arrays are a permutation of one another.<p>
+     * 
+     * @param a first integers array
+     * @param b second integers array to compare to
+     * @return true if <tt>a</tt> is a permutation of <tt>b</tt>. else return false.
+     */
     public static boolean isPermutation(int[] a, int[] b)
     {
         if(a.length != b.length)
@@ -175,12 +113,27 @@ public class Ex14 {
         return isPermutation(a, b, bTrace, 0, 0);
     }
 
+    /****************************
+    *       PRIVATE METHODS     *
+    ****************************/
+
+    /* 
+    *   Overload to the public 'size' method and does exactly as described there.
+    *   Only added the trace in the params that size gets.
+    *
+    *   mat - a boolean matrix to look for a spot at
+    *   trace - mark each cell that have been checked
+    *   x - row index
+    *   y - column index
+    *
+    *   return - the size of a spot found. not found or invalid pos - return 0.
+    */
     private static int size(boolean[][] mat, boolean[][] trace, int x, int y)
     {
         if(!validPos(mat, x, y) || trace[x][y])
             return 0;
 
-        trace[x][y] = true;
+        trace[x][y] = true; // mark each cell visited to check it only once
 
         if(mat[x][y])
         {
@@ -193,25 +146,44 @@ public class Ex14 {
         return 0;
     }
 
+    /*
+    *   Verify that the index (x,y) is in within the matrix boundaries
+    *
+    *   mat - the matrix
+    *   x - row index
+    *   y - column index
+    *
+    *   return - true if position is valid
+    */
     private static boolean validPos(boolean[][] mat, int x, int y)
     {
         return x < mat.length && x >= 0 && y < mat[0].length && y >= 0;
     }
 
+    /*
+    *   Overload to the public isPermutation, and implements it's discription.
+    *   Only added parameters to the function call.
+    *
+    *   a - first array
+    *   b - array to compare to
+    *   bTrace - marks each cell in b that has been used as a match to a.
+    *   aIndex - 'a' current index
+    *   bIndex - 'b' current index
+    */
     private static boolean isPermutation(int[] a, int[] b, boolean[] bTrace, int aIndex, int bIndex)
     {
-        if(aIndex == a.length)
+        if(aIndex == a.length) // means found for every cell in 'a' it's match in 'b'
             return true;
         
-        if(bIndex == b.length)
+        if(bIndex == b.length) // means did not find a match for a cell in 'a'
             return false;
 
         if(a[aIndex] == b[bIndex] && !bTrace[bIndex])
         {
-            bTrace[bIndex] = true;
-            return isPermutation(a, b, bTrace, aIndex + 1, 0);
+            bTrace[bIndex] = true; // mark this index in b as used
+            return isPermutation(a, b, bTrace, aIndex + 1, 0); // look for a match to the next index in 'a'
         }
 
-        return isPermutation(a, b, bTrace, aIndex, bIndex + 1);
+        return isPermutation(a, b, bTrace, aIndex, bIndex + 1); // this bIndex is not a match to 'a' curr aIndex, try the next one
     }
 }
