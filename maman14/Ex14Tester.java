@@ -16,12 +16,14 @@ public class Ex14Tester
         int[] test3 = { 5, 15, 3, 22, 12, 7, 27, 14};
         int[] test4 = {};
         int[] test5 = new int[6];
+        int[] test6 = { 5, 6, 7, 8, 9, 10, 11, 12};
 
         System.out.println("test1: " + Ex14.maximalDrop(test1));
         System.out.println("test2: " + Ex14.maximalDrop(test2));
         System.out.println("test3: " + Ex14.maximalDrop(test3));
         System.out.println("test4: " + Ex14.maximalDrop(test4));
         System.out.println("test5: " + Ex14.maximalDrop(test5));
+        System.out.println("test6: " + Ex14.maximalDrop(test6));
     }
 
     public static void testSink()

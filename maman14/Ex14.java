@@ -16,8 +16,8 @@ public class Ex14 {
         if (a.length == 0)
             return 0;
 
-            int maxNum = a[0];  // largest number in array until this point in array.
-            int maxDiff = 0;    // biggest difference found.
+        int maxNum = a[0];  // largest number in array until this point in array.
+        int maxDiff = 0;    // biggest difference found.
 
         for(int i = 1; i < a.length; ++i)
         {
@@ -37,7 +37,7 @@ public class Ex14 {
      *  and the same 'i' column index in matrix is filled with 1's, except [i][i] position which is 0.<p>
      *  The method returns the index of the first sink found in matrix, or -1 if none exist.<p>
      * Complexity:<p>
-     *  The time complexity is O(n^2) - worst case scenario is matrix is filled with 0
+     *  The time complexity is O(n^2) - worst case scenario is when the matrix is filled with 0
      *  except the last column filled with 1. Means iterate once through the whole matrix.<p>
      *  The space complexity is O(1) becuase allocating only three variables.
      * 
