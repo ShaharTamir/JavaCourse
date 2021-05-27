@@ -1,9 +1,81 @@
+class B
+{
+    public void aaa()
+    {
+        System.out.println("B - aaa()");
+        ccc();
+    }
+
+    public void ccc()
+    {
+        System.out.println("B - ccc()");
+    }    
+}
+
+class A extends B
+{
+    public void aaa()
+    {
+        System.out.println("A - aaa()");
+        super.aaa();
+    }
+}
+
+class C extends A
+{
+    public void bbb()
+    {
+        System.out.println("C - bbb()");
+        super.ccc();
+    }
+
+    public void ccc()
+    {
+        System.out.println("C - ccc()");
+    }
+}
+
+class E extends B
+{
+    public void bbb()
+    {
+        aaa();
+        System.out.println("E - bbb()");
+    }
+
+    public void ccc()
+    {
+        System.out.println("E - ccc()");
+    }
+}
+
+
+
+
 public class test2019b
 {
     public static void main(String[] args)
     {
         //testSum();
-        testRoad();        
+        //testRoad();
+        
+        B var1 = new A();
+        C var2 = new C();
+        B var3 = new E();
+        B var4 = new C();
+        Object var5 = new A();
+
+        var1.aaa();
+        var1.ccc();
+        var2.aaa();
+        var2.bbb();
+        var3.aaa();
+        //var3.bbb();
+        var4.aaa();
+        //var5.aaa();
+        //((C)var5).aaa();
+        ((E)var3).bbb();
+
     }
 
     public static boolean isSum(int[] a, int num)
