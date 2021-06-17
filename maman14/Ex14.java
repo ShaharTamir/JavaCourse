@@ -37,44 +37,63 @@ public class Ex14 {
      *  and the same 'i' column index in matrix is filled with 1's, except [i][i] position which is 0.<p>
      *  The method returns the index of the first sink found in matrix, or -1 if none exist.<p>
      * Complexity:<p>
-     *  The time complexity is O(n^2) - worst case scenario is when the matrix is filled with 0
-     *  except the last column filled with 1. Means iterate once through the whole matrix.<p>
-     *  The space complexity is O(1) becuase allocating only three variables.
+     *  The time complexity is O(n) - worst case scenario O(4n) is when the matrix down-left to up-right diagonal
+     *  is filled with 1 and the rest over the right side of the diagnoal is filled with 0.<p>
+     *  The space complexity is O(1) becuase allocating only two variables.
      * 
      * @param mat matrix to look for sinks at, containing 0's and 1's only.
      * @return the index of the first sink found in matrix, or -1 if none exist.
      */
     public static int isSink(int[][] mat)
     {
-        int zeroRowsCount = 0;
+        int res = -1;
         int i = 0;
-        int j;
+        int j = mat.length - 1;
 
-        while(i < mat.length)
+        // this loop will run maximum 2n times.
+        while(i < mat.length && j >= 0)
         { 
-            j = 0;
-            while(j < mat[0].length && 0 == mat[i][j]) // find if row is filled with 0
-                ++j;
-
-            if(j == mat[0].length) // whole row is filled with 0
+            if(0 == mat[i][j]) // find if row is filled with 0
             {
-                if(zeroRowsCount > 0) // all columns contain at least two 0's, means not possible to contain a sink
+                while(j >= 0 && 0 == mat[i][j]) // find if column is filled with 1, except [i][i] pos
+                    --j;
+
+                if(j < 0)
+                {
+                    res = i; // the row is filled with 0, check it as possible solution. 
+                    break;   // it cancels all other columns from containing 1s 
+                }
+                else
+                    ++i;
+            }
+            else // encountered 1, check column for possible solution
+            {
+                while(i < mat.length && (1 == mat[i][j] || j == i))
+                    ++i;
+
+                if(i == mat.length)
+                {
+                    res = j; // the column is filled with 0, check it as possible solution. 
+                    break;   // it cancels all other rows from containing 0s  
+                }
+                else
+                    --j;
+            }
+        }
+
+        if(-1 != res) // means found possible solution
+        {
+            // check solution validity
+            for(i = 0; i < mat.length; ++i) // check column
+                if(0 == mat[i][res] && i != res)
                     return -1;
-                    
-                ++zeroRowsCount;
-                j = 0;
 
-                while(j < mat.length && (1 == mat[j][i] || j == i)) // find if column is filled with 1, except [i][i] pos
-                    ++j;
-
-                if(j == mat.length) // found a sink
-                    return i;
-            }//if
-
-            ++i;
-        } //while
-    
-        return -1;
+            for(j = 0; j < mat.length; ++j)
+                if(1 == mat[res][j])
+                    return -1;
+        }        
+        
+        return res;
     }
 
     /**

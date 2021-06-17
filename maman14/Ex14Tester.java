@@ -48,10 +48,18 @@ public class Ex14Tester
                          {1, 0, 0, 0, 0, 0}, 
                          {1, 0, 1, 1, 0, 0}, 
                          {1, 1, 0, 1, 1, 1}};
+        
+        int[][] test4 = {{0, 0, 0, 0, 0, 1}, 
+                         {0, 0, 0, 0, 0, 1}, 
+                         {0, 0, 0, 0, 0, 1},
+                         {0, 0, 0, 0, 0, 1}, 
+                         {0, 0, 0, 0, 0, 1}, 
+                         {0, 0, 0, 0, 0, 1}};
 
-        System.out.println("test1: " + Ex14.isSink(test1));
-        System.out.println("test2: " + Ex14.isSink(test2));
-        System.out.println("test3: " + Ex14.isSink(test3));
+        System.out.println("test1: expect 3, got " + Ex14.isSink(test1));
+        System.out.println("test2: expect -1, got " + Ex14.isSink(test2));
+        System.out.println("test3: expect 0, got " + Ex14.isSink(test3));
+        System.out.println("test4: expect -1, got " + Ex14.isSink(test4));
     }
 
     public static void testSize()
