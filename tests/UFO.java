@@ -44,6 +44,9 @@ class Space
 
 public class UFO
 {
+    private static final int LOW = 0;
+    private static final int HIGH = 1;
+
     public static void main(String[] args)
     {
         Space test1 = new Space(4);
@@ -52,11 +55,46 @@ public class UFO
         res = findUFO(test1);
         System.out.println("res is: (" + res[0] + "," + res[1] + ")");
         System.out.println(test1);
-
+        test1 = new Space(10);
+        res = findUFO(test1);
+        System.out.println("res is: (" + res[0] + "," + res[1] + ")");
+        System.out.println(test1);
     }
 
     public static int[] findUFO(Space tmp)
     {
-        return new int[2];
+        int[][] binSearchVal = {{0, tmp.getSize()}, {0, tmp.getSize()}};
+        int[] pos = {tmp.getSize() / 2, tmp.getSize() / 2};
+        int[] dir = {0, 0};
+        int found = 0;
+        int i = 0;
+
+        while(found != 2)
+        {
+            dir = tmp.ask(pos[0], pos[1]);
+            
+            for(i = 0, found = 0; i < dir.length; ++i)
+            {
+                if(dir[i] == 0)
+                {
+                    ++found;
+                }
+                else
+                {
+                    if(dir[i] < 0)
+                    {
+                        binSearchVal[i][LOW] = pos[i] + 1;
+                    }
+                    else
+                    {
+                        binSearchVal[i][HIGH] = pos[i] - 1;
+                    }
+
+                    pos[i] = (binSearchVal[i][LOW] + binSearchVal[i][HIGH]) / 2;
+                }
+            }
+        }
+
+        return pos;
     }
 }
